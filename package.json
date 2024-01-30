@@ -1,5 +1,5 @@
 {
-  "name": "ecommercewebsite",
+  "name": "complete-inventory-system",
   "version": "1.0.0",
   "type": "module",
   "description": "",
@@ -7,7 +7,7 @@
   "scripts": {
     "start": "node backend/server.js",
     "server": "nodemon backend/server.js",
-    "client": "npm start --prefix frontend",
+    "client": "npm start --prefix dashboard",
     "dev": " concurrently \"npm run server\" \" npm run client\" ",
     "data:import": "node backend/seeder.js",
     "data:destroy": "node backend/seeder.js -d"

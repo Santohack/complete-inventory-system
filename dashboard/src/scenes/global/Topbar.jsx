@@ -1,4 +1,4 @@
-import { Box, IconButton, useTheme } from "@mui/material";
+import { Box, IconButton, styled, useTheme } from "@mui/material";
 import { useContext } from "react";
 import { ColorModeContext, tokens } from "../../theme";
 import InputBase from "@mui/material/InputBase";
@@ -10,7 +10,15 @@ import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
 import SearchIcon from "@mui/icons-material/Search";
 import AccountMenu from "../../components/AccountMenu";
 import { useSelector } from "react-redux";
-
+  export const IconButtonCust = styled(IconButton)(({ theme }) => ({
+    color: theme.palette.text.primary,
+    "&:hover": {
+      backgroundColor: theme.palette.primary.light,
+      color: theme.palette.text.primary,
+      borderRadius: "50%",
+    },
+    }
+  ))
 const Topbar = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
@@ -31,23 +39,25 @@ const {userInfo} = useSelector((state) => state.auth)
       </Box>
 
       {/* ICONS */}
-      <Box display="flex">
-        <IconButton onClick={colorMode.toggleColorMode}>
+      <Box display="flex" alignItems="center">
+        <IconButtonCust onClick={colorMode.toggleColorMode}>
           {theme.palette.mode === "dark" ? (
             <DarkModeOutlinedIcon />
           ) : (
             <LightModeOutlinedIcon />
           )}
-        </IconButton>
-        <IconButton>
+        </IconButtonCust>
+        <IconButtonCust>
           <NotificationsOutlinedIcon />
-        </IconButton>
-        <IconButton>
+        </IconButtonCust>
+        <IconButtonCust>
           <SettingsOutlinedIcon />
-        </IconButton>
-        <IconButton>
+        </IconButtonCust>
+      
         <AccountMenu name={userInfo?.name}/>
-        </IconButton>
+      
+        
+        
       </Box>
     </Box>
   );

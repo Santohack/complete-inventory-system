@@ -16,7 +16,18 @@ import { Link, useNavigate } from 'react-router-dom';
 import { logout } from '../../slices/authslice';
 import { useLogoutMutation } from '../../slices/userApiSlice';
 import { toast } from 'react-toastify';
+import { styled } from '@mui/material';
 
+
+export const IconButtonCust = styled(IconButton)(({ theme }) => ({
+    color: theme.palette.text.primary,
+    "&:hover": {
+      backgroundColor: theme.palette.primary.light,
+      color: theme.palette.text.primary,
+      borderRadius: "50%",
+    },
+    }
+  ))
 export default function AccountMenu({ name }) {
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -51,7 +62,7 @@ export default function AccountMenu({ name }) {
             <Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>
 
                 <Tooltip title="Account settings">
-                    <IconButton
+                    <IconButtonCust
                         onClick={handleClick}
                         size="small"
                         sx={{ ml: 2 }}
@@ -60,7 +71,7 @@ export default function AccountMenu({ name }) {
                         aria-expanded={open ? 'true' : undefined}
                     >
                         <Avatar >{name && name[0]}</Avatar>
-                    </IconButton>
+                    </IconButtonCust>
                 </Tooltip>
             </Box>
             <Menu

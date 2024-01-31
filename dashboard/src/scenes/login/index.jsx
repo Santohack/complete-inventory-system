@@ -51,7 +51,7 @@ const LoginScreen = () => {
       <Typography
         variant="h4"
         mt={3}
-        sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}
+        sx={{ display: "flex", justifyContent: "center", alignItems: "center" , paddingTop: "10%" }}
       >
         Login
       </Typography>
@@ -92,7 +92,7 @@ const LoginScreen = () => {
             >
               <Button
                 type="submit"
-                sx={{ width: "20ch" }}
+                sx={{ width: "20ch",marginLeft: "10px",color: "white",backgroundColor: "gray" }}
                 variant="contained"
                 disabled={isLoading}
               >

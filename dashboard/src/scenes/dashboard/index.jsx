@@ -12,10 +12,71 @@ import GeographyChart from "../../components/GeographyChart";
 import BarChart from "../../components/BarChart";
 import StatBox from "../../components/StatBox";
 import ProgressCircle from "../../components/ProgressCircle";
-
+import { useGetAllOrdersQuery } from "../../slices/ordersApiSlice";
+import { useGetProductsQuery } from "../../slices/productApiSlice";
+import { useGetUsersQuery } from "../../slices/userApiSlice";
 const Dashboard = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+  const {
+    data: orders,
+    isLoading: isLoadingOrders,
+    isError: isErrorOrders,
+  } = useGetAllOrdersQuery();
+  const {
+    data: products,
+    isLoading: isLoadingProducts,
+    isError: isErrorProducts,
+  } = useGetProductsQuery();
+  const {
+    data: users,
+    isLoading: isLoadingUsers,
+    isError: isErrorUsers,
+  } = useGetUsersQuery();
+
+  if (isLoadingOrders || isLoadingProducts) {
+    return <div>Loading...</div>;
+  }
+
+  if (isErrorOrders || isErrorProducts) {
+    return <div>Error fetching data...</div>;
+  }
+  const totalOrders = orders?.length || 0;
+
+  const pendingOrders = orders?.filter((order) => !order.isPaid);
+  const totalPendingOrders = pendingOrders.length;
+
+  const deliveredOrders = orders?.filter((order) => order.isDelivered);
+  const totalDeliveredOrders = deliveredOrders.length;
+
+  const unpaidOrders = orders?.filter((order) => !order.isPaid);
+  const totalUnpaidOrders = unpaidOrders.length;
+  const totalProducts = products?.length || 0;
+
+  // Total products in stock
+  const totalInStockProducts = products?.filter(
+    (product) => product.countInStock > 0
+  ).length;
+
+  // Total products price
+  const totalProductsPrice = products?.reduce(
+    (total, product) => total + product.price,
+    0
+  );
+
+  // Products with countInStock less than 2
+  const lowStockProducts = products?.filter(
+    (product) => product.countInStock < 2
+  ).length;
+
+  // Out of stock products
+  const outOfStockProducts = products?.filter(
+    (product) => product.countInStock === 0
+  ).length;
+  const totalUsers = users?.length || 0;
+
+  // Number of admin users
+  const numberOfAdminUsers = users?.filter((user) => user.isAdmin).length;
 
   return (
     <Box m="20px">

@@ -12,6 +12,8 @@ import Line from "./scenes/line";
 import Pie from "./scenes/pie";
 import FAQ from "./scenes/faq";
 import Geography from "./scenes/geography";
+import { ToastContainer } from 'react-toastify';
+  import 'react-toastify/dist/ReactToastify.css';
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import { ColorModeContext, useMode } from "./theme";
 import Calendar from "./scenes/calendar/calendar";
@@ -32,31 +34,31 @@ function App() {
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <div className="app">
+        <ToastContainer />
           <Sidebar isSidebar={isSidebar} />
           <main className="content">
             <Topbar setIsSidebar={setIsSidebar} />
             <Routes>
-            <Route path="/" element={<Dashboard />} />
-            <Route path="/login" element={<LoginScreen />} />
-            <Route path="/form" element={<Form />} />
-            <Route path="/faq" element={<FAQ />} />
-            <Route path="" element={<AdminRoute />}>
-             
-              <Route path="/team" element={<Team />} />
-              <Route path="/contacts" element={<Contacts />} />
-              <Route path="/order/orderList" element={<OrderList />} />
-              <Route path="/edit-user/:id" element={<EditTeam />} />
-              <Route path="/order/:id" element={<OrderDetails />} />
-              <Route path="/edit-product/:id" element={<EditProduct />} />
-              <Route path="/products" element={<AllProductList />} />
-              <Route path="/invoices" element={<Invoices />} />
-         
-              <Route path="/bar" element={<Bar />} />
-              <Route path="/pie" element={<Pie />} />
-              <Route path="/line" element={<Line />} />
-              
-              <Route path="/calendar" element={<Calendar />} />
-              <Route path="/geography" element={<Geography />} />
+              <Route path="/login" element={<LoginScreen />} />
+              <Route path="/form" element={<Form />} />
+              <Route path="/faq" element={<FAQ />} />
+              <Route path="" element={<AdminRoute />}>
+                <Route path="/" element={<Dashboard />} />
+                <Route path="/team" element={<Team />} />
+                <Route path="/contacts" element={<Contacts />} />
+                <Route path="/order/orderList" element={<OrderList />} />
+                <Route path="/edit-user/:id" element={<EditTeam />} />
+                <Route path="/order/:id" element={<OrderDetails />} />
+                <Route path="/edit-product/:id" element={<EditProduct />} />
+                <Route path="/products" element={<AllProductList />} />
+                <Route path="/invoices" element={<Invoices />} />
+
+                <Route path="/bar" element={<Bar />} />
+                <Route path="/pie" element={<Pie />} />
+                <Route path="/line" element={<Line />} />
+
+                <Route path="/calendar" element={<Calendar />} />
+                <Route path="/geography" element={<Geography />} />
               </Route>
             </Routes>
           </main>

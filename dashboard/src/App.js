@@ -15,6 +15,13 @@ import Geography from "./scenes/geography";
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import { ColorModeContext, useMode } from "./theme";
 import Calendar from "./scenes/calendar/calendar";
+import AdminRoute from "./AdminRoutes";
+import OrderDetails from "./scenes/order/orderDetails/orderDetails";
+import EditTeam from "./scenes/team/editTeam";
+import OrderList from "./scenes/order/orderList/orderList";
+import AllProductList from "./scenes/products/productList";
+import EditProduct from "./scenes/products/editProduct";
+import LoginScreen from "./scenes/login";
 
 function App() {
   const [theme, colorMode] = useMode();
@@ -29,17 +36,28 @@ function App() {
           <main className="content">
             <Topbar setIsSidebar={setIsSidebar} />
             <Routes>
-              <Route path="/" element={<Dashboard />} />
+            <Route path="/" element={<Dashboard />} />
+            <Route path="/login" element={<LoginScreen />} />
+            <Route path="/form" element={<Form />} />
+            <Route path="/faq" element={<FAQ />} />
+            <Route path="" element={<AdminRoute />}>
+             
               <Route path="/team" element={<Team />} />
               <Route path="/contacts" element={<Contacts />} />
+              <Route path="/order/orderList" element={<OrderList />} />
+              <Route path="/edit-user/:id" element={<EditTeam />} />
+              <Route path="/order/:id" element={<OrderDetails />} />
+              <Route path="/edit-product/:id" element={<EditProduct />} />
+              <Route path="/products" element={<AllProductList />} />
               <Route path="/invoices" element={<Invoices />} />
-              <Route path="/form" element={<Form />} />
+         
               <Route path="/bar" element={<Bar />} />
               <Route path="/pie" element={<Pie />} />
               <Route path="/line" element={<Line />} />
-              <Route path="/faq" element={<FAQ />} />
+              
               <Route path="/calendar" element={<Calendar />} />
               <Route path="/geography" element={<Geography />} />
+              </Route>
             </Routes>
           </main>
         </div>

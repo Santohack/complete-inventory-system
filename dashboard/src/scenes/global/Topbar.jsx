@@ -46,7 +46,7 @@ const {userInfo} = useSelector((state) => state.auth)
           <SettingsOutlinedIcon />
         </IconButton>
         <IconButton>
-        <AccountMenu name={userInfo.name}/>
+        <AccountMenu name={userInfo?.name}/>
         </IconButton>
       </Box>
     </Box>

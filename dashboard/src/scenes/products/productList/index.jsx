@@ -1,37 +1,50 @@
 import { Box, Button, Typography, useTheme } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
-import { tokens } from "../../theme";
-import { mockDataTeam } from "../../data/mockData";
+import { useNavigate } from "react-router-dom";
+
+import Header from "../../../components/Header";
+import { tokens } from "../../../theme";
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
-import CloseIcon from '@mui/icons-material/Close';
-import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
-import Header from "../../components/Header";
-import{toast} from "react-toastify";
-import { useNavigate } from "react-router-dom";
-import { useGetUsersQuery ,useDeleteUserMutation} from "../../slices/userApiSlice";
-const Team = () => {
+import { useGetProductsQuery ,useDeleteProductMutation ,useCreateProductMutation} from "../../../slices/productApiSlice";
+import { toast } from "react-toastify";
+const AllProductList = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
-  const navigate = useNavigate();
-  const { data: users, isLoading ,refetch} = useGetUsersQuery();
-  const [deleteUser,{isLoading:isDeleting,error}] = useDeleteUserMutation();
-  const handleRemoveClick = async(id) => {
-    if(window.confirm("Are you sure you want to remove this user?")) {
+  const { data:products, isLoading ,refetch } = useGetProductsQuery();
+  const history = useNavigate();
+  const [createProduct ,{isLoading:isLoadingCreate}] = useCreateProductMutation();
+  const [deleteProduct ,{isLoading:isLoadingDelete}] = useDeleteProductMutation();
+  const handleEditClick = (productId) => {
+    // Handle the click event and navigate to the edit page
+    history(`/edit-product/${productId}`);
+  };
+
+  const handleRemoveClick = async (productId) => {
+    // Handle the click event for removing the product
+    // Implement your logic to remove the product
+    if(window.confirm("Are you sure you want to remove this product?")) {
       try {
-        
-        await deleteUser(id);
-        refetch();  
-      } catch (error) {
-        console.log(error);
+        await deleteProduct(productId);
+        refetch();
+        toast.success("Product removed successfully");
+      }catch(error) {
         toast.error(error?.data?.message || error?.error);
-        
       }
     }
-  }
-  const handleEditClick = (id) => {
-    navigate(`/edit-user/${id}`);
-    console.log(id);
+    console.log(`Remove product with ID: ${productId}`);
+  };  
+  const createProductHandler = async() => {
+    if(window.confirm("Are you sure you want to create a new product?")) {
+      try {
+        await createProduct();
+        refetch();
+      }
+      catch(error) {
+        console.log(error);
+        toast.error(error?.data?.message || error?.error);
+      }
+    }
   }
   const columns = [
     { field: "_id", headerName: "ID", flex: 1 },
@@ -42,20 +55,23 @@ const Team = () => {
     cellClassName: "name-column--cell",
   },
   {
-    field: "email",
-    headerName: "Email",
-   
+    field: "price",
+    headerName: "Price",
+    type: "number",
     flex: 1,
   },
   {
-    field: "isAdmin",
-    headerName: "Admin",
+    field: "category",
+    headerName: "Category",
     type: "number",
     flex: 1,
-    renderCell: ({ value }) => (value ? (<CheckCircleOutlineIcon color="success" />) : (<CloseIcon color="error" />)), 
-  
   },
-  
+  {
+    field: "brand",
+    headerName: "Brand",
+   
+    flex: 1,
+  },
   {
     field: "edit",
     headerName: "Edit",
@@ -95,7 +111,7 @@ const Team = () => {
 
   return (
     <Box m="20px">
-      <Header title="Team" subtitle="Managing the Team Members"  />
+      <Header title="Product List" subtitle="Managing the list of products" button={'Create Product'} hadleClick={ () => createProductHandler()} />
       <Box
         m="40px 0 0 0"
         height="75vh"
@@ -129,9 +145,9 @@ const Team = () => {
           },
         }}
       >
-        {isLoading || isDeleting ? 'Loading' : null}
-        {users?.length > 0 ? (
-          <DataGrid checkboxSelection rows={users} columns={columns} getRowId={(row) => row._id} />
+        {isLoadingCreate || isLoadingDelete ? 'Loading' : null}
+        {products?.length > 0 ? (
+          <DataGrid checkboxSelection rows={products} columns={columns} getRowId={(row) => row._id} />
         ) : (
           <Typography variant="body1">Loading...</Typography>
         )}
@@ -140,4 +156,6 @@ const Team = () => {
   );
 };
 
-export default Team;
+
+
+export default AllProductList;
